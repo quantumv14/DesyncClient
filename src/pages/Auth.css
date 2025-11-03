@@ -1,0 +1,236 @@
+.auth-page {
+  min-height: 100vh;
+  background-color: #000000;
+}
+
+.auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 80px);
+  padding: 2rem;
+}
+
+.auth-box {
+  background-color: #0a0a0a;
+  border: 1px solid #1a1a1a;
+  padding: 3rem;
+  max-width: 500px;
+  width: 100%;
+}
+
+.auth-title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  background: linear-gradient(180deg, #ffffff 0%, #888888 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.auth-subtitle {
+  color: #888888;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
+.error-message {
+  background-color: rgba(255, 107, 107, 0.1);
+  border: 1px solid #ff6b6b;
+  color: #ff6b6b;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+}
+
+.form-input {
+  background-color: #000000;
+  border: 1px solid #1a1a1a;
+  color: #ffffff;
+  padding: 1rem;
+  font-size: 0.9rem;
+  font-family: 'Orbitron', monospace;
+  transition: all 0.3s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #6b8cff;
+}
+
+.form-input::placeholder {
+  color: #444444;
+}
+
+.auth-submit {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 1rem 2rem;
+  font-size: 0.9rem;
+}
+
+.auth-switch {
+  margin-top: 2rem;
+  text-align: center;
+  color: #888888;
+  font-size: 0.85rem;
+}
+
+.auth-link {
+  color: #6b8cff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.auth-link:hover {
+  color: #5a7ae6;
+}
+
+@media (max-width: 768px) {
+  .auth-box {
+    padding: 2rem;
+  }
+
+  .auth-title {
+    font-size: 2rem;
+  }
+}
+
+/* Banned Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content {
+  background-color: #0a0a0a;
+  border: 2px solid #ef4444;
+  padding: 3rem;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.banned-modal {
+  border-color: #ef4444;
+  box-shadow: 0 0 50px rgba(239, 68, 68, 0.3);
+}
+
+.banned-icon {
+  font-size: 5rem;
+  margin-bottom: 1.5rem;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.banned-title {
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: #ef4444;
+  margin-bottom: 1rem;
+}
+
+.banned-message {
+  font-size: 0.95rem;
+  color: #cccccc;
+  margin-bottom: 2rem;
+}
+
+.banned-reason-box {
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid #ef4444;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.banned-reason-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #ef4444;
+  margin-bottom: 0.8rem;
+}
+
+.banned-reason-text {
+  font-size: 0.95rem;
+  color: #ffffff;
+  line-height: 1.6;
+}
+
+.btn-close-banned {
+  background-color: #ef4444;
+  border: none;
+  color: #000000;
+  padding: 1rem 3rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Orbitron', monospace;
+}
+
+.btn-close-banned:hover {
+  background-color: #dc2626;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+}

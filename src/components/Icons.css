@@ -1,0 +1,103 @@
+/* Icon styles - replacing emojis */
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.2em;
+  height: 1.2em;
+  font-size: inherit;
+}
+
+/* Reaction Icons */
+.icon-like::before {
+  content: '👍';
+}
+
+.icon-love::before {
+  content: '❤️';
+}
+
+.icon-laugh::before {
+  content: '😂';
+}
+
+.icon-fire::before {
+  content: '🔥';
+}
+
+/* Action Icons */
+.icon-quote::before {
+  content: '💬';
+}
+
+.icon-report::before {
+  content: '🚩';
+}
+
+.icon-download::before {
+  content: '⬇️';
+}
+
+.icon-docs::before {
+  content: '📖';
+}
+
+.icon-discord::before {
+  content: '💬';
+}
+
+/* Feature Icons */
+.icon-bolt::before {
+  content: '⚡';
+}
+
+.icon-target::before {
+  content: '🎯';
+}
+
+.icon-lock::before {
+  content: '🔒';
+}
+
+.icon-chat::before {
+  content: '💬';
+}
+
+.icon-settings::before {
+  content: '⚙️';
+}
+
+.icon-diamond::before {
+  content: '💎';
+}
+
+/* Admin Icons */
+.icon-overview::before {
+  content: '📊';
+}
+
+.icon-users::before {
+  content: '👥';
+}
+
+.icon-codes::before {
+  content: '🎫';
+}
+
+.icon-ban::before {
+  content: '🚫';
+}
+
+.icon-reports::before {
+  content: '📋';
+}
+
+.icon-activity::before {
+  content: '📈';
+}
+
+.icon-events::before {
+  content: '🎉';
+}
+

@@ -1,0 +1,265 @@
+WE USE MONGO DB BTW THIS US OUR SERVER .ENV
+MONGODB_URI=mongodb+srv://desync:--Ps543290@main.pnm4e3w.mongodb.net/?appName=Main
+JWT_SECRET=2829a762809f180135dbeaa46e8c30cb57cffafdd67ef284b598fa1e809beeaa6df23888c808f3138d53d5bd13d751f49aba37fdae067533310453a10b83f6d3
+OWNER_EMAIL=joeykoch2010@gmail.com
+OWNER_USERNAME=Quantum
+OWNER_PASSWORD=--Ps543290
+NODE_ENV=development
+FRONTEND_URL=http://localhost:3000
+
+
+ALSO ADD A FEATURES FOR EVERYONE TO SEE BESIDES THE DISCORD BUTTON ON EVERY SITE IS A STATUS BUTTON THERE U CAN SEE THE SATUS OF OUR CS2 SERVER SHOW PLAYERS AND THE PING ON TYHE SERVER AND THROU OUT THAT PING CALCUALTE A A STATUS RATE FROM 0% to 100% here is our server ip 92.62.251.104:27015
+
+Project summary
+
+* Forum name: Desync.
+* Purpose: private CS2 cheat community for Desync Movement and Desync HvH.
+* Registration closed. Access by invite codes only.
+* Accounts identified by uid integers. Owner uid 0. Co-owner uid 1.
+
+High-level goals
+
+* Make every route and API fully functional.
+* Ensure front end and back end work with the current database.
+* Remove emojis from UI and replace with custom CSS icons or SVG sprite.
+* Place live chat at top of forum front page. Show thread list below chat.
+* Fix styling in admin UI. Remove all admin buttons except a single Back button.
+* Implement PMs, mentions, notifications, inbox, and purchase flow with Stripe.
+* Add token economy: Desync$ rewards and redemption.
+
+Routing and API (deliver working implementations)
+
+* Frontend routes:
+
+  * / (home)
+  * /threads
+  * /thread/:id
+  * /profile/:uid or /profile?uid=#
+  * /messages
+  * /inbox
+  * /admin
+  * /software
+  * /software/:slug
+* API routes:
+
+  * GET /api/threads
+  * GET /api/thread/:id
+  * POST /api/thread
+  * GET /api/users/:uid
+  * PATCH /api/users/:uid
+  * POST /api/messages
+  * GET /api/messages?conversation_id=
+  * POST /api/mentions
+  * GET /api/notifications
+  * POST /api/purchase
+  * POST /api/stripe/webhook
+  * POST /api/invite/redeem
+* Return proper HTTP status codes and JSON error objects.
+
+Authentication and access control
+
+* Registration closed. New accounts only by valid invite code.
+* Invite codes stored, single-use, with issuer uid and created_at.
+* Session and token auth must integrate with existing backend.
+* Owner uid 0 full privileges. Co-owner uid 1 admin privileges.
+* Role-based permission system.
+
+Profiles
+
+* Profile route must resolve by uid param.
+* Profile shows avatar, roles, bio, public posts, purchase status, Desync$ balance.
+* Owner profile URL must be accessible at /profile?uid=0 or /profile/0.
+* Provide API to lookup by username and uid.
+
+Private messages
+
+* Persistent PMs between users.
+* Real-time delivery via WebSocket or equivalent.
+* Conversation list at /messages.
+* Message view per conversation with unread count and read receipts.
+* Rate limit PM creation to prevent spam.
+
+Mentions and notifications
+
+* Parse @username mentions in posts and messages.
+* Link mentions to profile route.
+* Create notification entry on mention and on received PM.
+* Notification inbox at /inbox with unread counters and mark-as-read endpoints.
+* Prevent mass mention spam via thresholds and cooldowns.
+
+Live chat
+
+* Live chat component embedded at top of home page.
+* Support real-time chat, persistence, moderation controls.
+* Show online user list and quick link to profile by uid.
+
+Token economy: Desync$
+
+* Award 1 Desync$ per active day to each eligible user.
+* Weekly bonus of 7 Desync$ if user active 7 days in the week.
+* Store last_daily_reward date and streak counters.
+* Allow users to redeem Desync$ for:
+
+  * Profile name effect
+  * 1 week of Desync Movement access
+  * 1 week of Desync HvH access
+* Redemption flow:
+
+  * Show balance and available redemptions.
+  * Reserve tokens at checkout and confirm via server.
+  * Update purchases table and grant temporary access role.
+
+Software storefront and purchases
+
+* Add two software products:
+
+  * desync-movement (Desync Movement)
+  * desync-hvh (Desync HvH)
+* Product records: slug, title, price_cents per duration, currency, meta JSON.
+* Software page lists products and details.
+* Buy modal offers durations:
+
+  * 1 week
+  * 1 month
+  * 3 months
+  * 1 year
+  * lifetime
+* Modal creates server-side Stripe Checkout session and returns session_id.
+* Server validates Stripe webhook signature and processes payment events.
+* On successful payment:
+
+  * Persist purchase record with expires_at and stripe_payment_id.
+  * Grant corresponding role to user (temporary or lifetime).
+  * Create notification for purchase success.
+  * Log audit entry.
+
+Roles and permissions
+
+* Add roles: developer, alpha, beta, lifetime, premium tiers, moderator, admin.
+* user_roles join table with assigned_at and expires_at.
+* Admin UI to assign and revoke roles.
+* Role checks enforced at API layer.
+
+Database changes and migrations
+
+* Add or update tables:
+
+  * users: uid INT primary key, username UNIQUE, avatar_url, bio, is_active, created_at, updated_at
+  * invites: code, issuer_uid, used_by_uid, expires_at, created_at
+  * messages: id, sender_uid, receiver_uid, body TEXT, read_at, created_at
+  * conversations: id, participant_uids JSON or mapping, last_message_at
+  * mentions: id, post_id, mentioned_uid, created_at
+  * notifications: id, user_uid, type, data JSON, read_at, created_at
+  * purchases: id, user_uid, product_slug, duration_days, expires_at NULLABLE, stripe_payment_id, created_at
+  * roles: id, slug, name, permissions JSON
+  * user_roles: id, user_uid, role_id, assigned_at, expires_at NULLABLE
+  * products/software_products: slug, title, base_price_cents, currency, metadata JSON
+  * tokens_wallets or add field on users: desync_balance INT, last_daily_reward DATE, weekly_streak INT
+  * audit_logs: id, user_uid, action, data JSON, created_at
+* Provide migration files and SQL for each DB engine in repo.
+
+Security and validation
+
+* Sanitize all user input and escape HTML where necessary.
+* Validate Stripe webhook signatures and idempotency.
+* Rate limit posting and mentions endpoints.
+* Enforce role checks on admin routes.
+* Log admin actions and payment processing steps.
+
+Testing
+
+* Unit tests for:
+
+  * mention parser
+  * notification creation
+  * token accrual and redemption logic
+  * purchase record creation
+* Integration tests for:
+
+  * PM flow including real-time delivery
+  * profile view via mention link
+  * admin menu behavior and permission gating
+  * Stripe webhook processing using test keys and test signatures
+* E2E tests covering:
+
+  * login with invited account
+  * claim daily reward
+  * mention user and receive notification
+  * open PM and send message
+  * buy product flow using mocked Stripe checkout and webhook
+* Provide test scripts and results.
+
+Admin UI changes
+
+* Remove profile, login, Discord, home buttons from admin header.
+* Keep single Back button that returns to previous admin page.
+* Improve spacing, font sizes, and responsive layout.
+* Hide admin features from non-admin users.
+* Replace emoji icons with custom CSS/SVG icons and accessible labels.
+
+Error fixes and polish
+
+* Fix front-end JS errors visible on dev server.
+* Fix broken DB queries and indices.
+* Ensure mobile responsiveness for live chat and threads.
+* Improve accessibility: keyboard focus, ARIA labels.
+* Run static analysis and fix lint errors.
+
+Acceptance criteria
+
+* All routes respond without 500 errors.
+* PM message persists and delivers to recipient.
+* Mention creates clickable profile link and notification.
+* Admin view shows only Back button and admin tools.
+* Home page shows live chat with threads below.
+* Software page lists products with Buy modal and Stripe redirect.
+* Stripe webhook updates purchases and assigns roles.
+* Daily token accrual runs per user and weekly bonus accrual works.
+* Redemption flows update balance and grant access.
+* All migrations apply successfully.
+* Tests pass locally.
+
+Deliverables
+
+* Branch or PR with all code changes.
+* Migration files and SQL.
+* Tests and test output.
+* README with:
+
+  * deployment steps
+  * required env vars (STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, DATABASE_URL, JWT_SECRET)
+  * endpoints added
+  * how to run tests
+* Short changelog of major changes.
+* Commit messages referencing ticket id for each logical change.
+
+Operational checklist for testing
+
+* Provide test accounts:
+
+  * Owner uid 0
+  * Co-owner uid 1
+  * Test user uid 2
+* Provide sample invite codes and sample Stripe test keys for staging.
+* Provide script to seed DB with products and roles.
+* Provide steps to simulate Stripe webhook locally.
+
+Priority order for tasks
+
+1. Routes and API stability.
+2. PM system and real-time delivery.
+3. Mentions and notifications.
+4. Admin UI cleanup.
+5. Software storefront and Stripe integration.
+6. Token accrual and redemption.
+7. DB migrations and tests.
+8. Polish and mobile responsiveness.
+
+Work instructions
+
+* Push incremental commits with clear messages.
+* Include migration and tests in same PR.
+* Include a short README for deployment and testing.
+* Tag commits with ticket id.
+
+Begin now. Validate everything end-to-end on a staging environment. Provide PR for review.

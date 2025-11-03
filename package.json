@@ -1,0 +1,42 @@
+{
+  "name": "desync",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "server": "node server/index.js",
+    "dev:server": "nodemon server/index.js",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.20.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "@vitejs/plugin-react": "^4.2.0",
+    "@vitejs/plugin-react-swc": "^3.3.2",
+    "autoprefixer": "^10.4.15",
+    "esbuild": "^0.19.0",
+    "eslint": "^9.36.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.7",
+    "postcss": "^8.4.32",
+    "postcss-nesting": "^12.0.1",
+    "sass": "^1.71.1",
+    "typescript": "^5.2.2",
+    "vite": "^4.5.0",
+    "vite-plugin-svgr": "^4.2.0"
+  },
+  "overrides": {
+    "vite": {
+      "@rollup/rollup-linux-x64-gnu": "npm:@rollup/wasm-node"
+    }
+  }
+}

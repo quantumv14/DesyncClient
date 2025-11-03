@@ -1,0 +1,17 @@
+# Handle all routes - SPA fallback
+/*    /index.html    200
+
+# API proxy
+/api/*  /.netlify/functions/:splat  200
+
+# Static assets with cache
+/assets/*  /assets/:splat  200
+
+# Service Worker
+/sw.js  /sw.js  200
+
+# Favicon and other static files
+/*.ico  /:splat  200
+
+# Web manifest
+/*.webmanifest  /:splat  200
